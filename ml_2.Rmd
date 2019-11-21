@@ -78,14 +78,23 @@ clean <- raw_data %>%
 # All of this is relatively simple because there is only one independent
 # variable in the model and the dependent variable only has two levels.
 
-model_1 <- glm(data = clean, dvote ~ gender, family = "binomial")
+
+# In logistic regression divide coefficient by 4 to get percentage change. 
+model_1 <- glm(data = clean, dvote ~ gender + party + office, family = "binomial")
 
 x_1 <- clean %>% 
   mutate(prediction = predict(model_1, type = "response")) %>% 
   mutate(pred_dvote = as.factor(ifelse(prediction > mean(prediction), "Yes", "No")))
 
+metrics(data = x_1, truth=dvote, estimate =pred_dvote)
+
+
 ```
 
+
+```{r class}
+# How good is this model?
+```
 
 
 
